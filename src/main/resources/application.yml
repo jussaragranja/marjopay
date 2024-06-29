@@ -11,6 +11,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        use_sql_comments: true
   profiles:
     active: dev
 
@@ -19,3 +21,5 @@ logging:
     root: INFO
     org.springframework.web: DEBUG
     org.hibernate: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
