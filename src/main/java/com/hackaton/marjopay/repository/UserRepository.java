@@ -1,0 +1,12 @@
+package com.hackaton.marjopay.repository;
+
+import com.hackaton.marjopay.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    User deleteById(long id);
+
+}
