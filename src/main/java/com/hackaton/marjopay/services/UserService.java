@@ -41,7 +41,7 @@ public class UserService {
         userExistent.setName(userResponse.getName());
         userExistent.setEmail(userResponse.getEmail());
         userExistent.setCpf(userResponse.getCpf());
-        userExistent.setDateOfBirth(userResponse.getDateCreation());
+        userExistent.setDateOfBirth(userResponse.getDateOfBirth());
         userExistent.setDateUpdated(LocalDateTime.now());        
         criptografarPasswrod(userExistent); 
         

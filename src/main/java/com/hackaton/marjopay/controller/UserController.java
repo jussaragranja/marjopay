@@ -1,7 +1,9 @@
 package com.hackaton.marjopay.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.hackaton.marjopay.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,9 +34,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/user")
     public Page<UserRequest> listUsers(Pageable pageable){
         return userService.findAll(pageable);
+    }
+
+    @GetMapping("/users")
+    public List<User> listUsers(){
+        return userRepository.findAll();
     }
 
     @GetMapping("/user/{id}")

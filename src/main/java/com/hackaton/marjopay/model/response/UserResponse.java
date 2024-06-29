@@ -2,8 +2,10 @@ package com.hackaton.marjopay.model.response;
 
 import static com.hackaton.marjopay.util.Constant.MESSAGE_MAX_MIN_SIZE;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -37,12 +39,16 @@ public class UserResponse {
 	@Length(min = 1, max = 40, message = MESSAGE_MAX_MIN_SIZE)
 	private String phone;
 
-	private LocalDateTime dateOfBirth;
-	
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private LocalDate dateOfBirth;
+
 	@DateTimeFormat(pattern = "dd/MM/yyyy:HH:mm")
+	@JsonFormat(pattern = "dd/MM/yyyy:HH:mm")
 	private LocalDateTime dateCreation;
-	
+
 	@DateTimeFormat(pattern = "dd/MM/yyyy:HH:mm")
+	@JsonFormat(pattern = "dd/MM/yyyy:HH:mm")
 	private LocalDateTime dateUpdated;
 	
 	public UserResponse(User entity) {

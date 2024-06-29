@@ -1,8 +1,10 @@
 package com.hackaton.marjopay.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -51,14 +53,17 @@ public class User implements Serializable{
 	@Length(min = 1, max = 40, message = MESSAGE_MAX_MIN_SIZE)
 	private String phone;
 
-	@DateTimeFormat(pattern = "dd/MM/yyyy:HH:mm")
-	private LocalDateTime dateOfBirth;
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private LocalDate dateOfBirth;
 
 	@Column(name = "date_Creation")
 	@DateTimeFormat(pattern = "dd/MM/yyyy:HH:mm")
+	@JsonFormat(pattern = "dd/MM/yyyy:HH:mm")
 	private LocalDateTime dateCreation;
 	
 	@Column(name = "date_Updated")
 	@DateTimeFormat(pattern = "dd/MM/yyyy:HH:mm")
+	@JsonFormat(pattern = "dd/MM/yyyy:HH:mm")
 	private LocalDateTime dateUpdated;
 }
