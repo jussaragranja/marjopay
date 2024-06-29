@@ -3,6 +3,7 @@ package com.hackaton.marjopay.controller;
 import com.hackaton.marjopay.exception.ResourceNotFoundException;
 import com.hackaton.marjopay.model.Payment;
 import com.hackaton.marjopay.repository.PaymentRepository;
+import com.hackaton.marjopay.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,34 +22,29 @@ public class PaymentController {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    @Autowired
+    private PaymentService paymentService;
+
     @GetMapping("/payment")
     public List<Payment> listPayments(){
-        return paymentRepository.findAll();
+        return paymentService.findAll();
     }
 
     @DeleteMapping("/delete-payment/{id}")
-    public Payment deletePaymentById(@PathVariable(value = "id") long id){
-        if(paymentRepository.findById(id) == null) {
-            throw new ResourceNotFoundException(MESSAGE_PAYMENT_NOT_FOUND);
-        }
-        return paymentRepository.deleteById(id);
+    public void deletePaymentById(@PathVariable(value = "id") long id){
+        paymentService.deletePaymentById(id);
     }
 
     @PutMapping("/update-payment")
     public Payment updatePayment(@RequestBody Payment payment){
-        if(!paymentRepository.findById(payment.getId()).isPresent()) {
-            throw new ResourceNotFoundException(MESSAGE_PAYMENT_NOT_FOUND);
-        }
-        return paymentRepository.save(payment);
+        return paymentService.updatePayment(payment);
     }
+
 
     @PostMapping("/create-payment")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public Payment createPaymment(@RequestBody Payment payment){
-        if(payment.getUser() == null || payment.getValue() == null || payment.getValue() == BigDecimal.ZERO){
-            throw new ResourceNotFoundException(MESSAGE_PARAMETERS_EMPTY_OR_NULL);
-        }
-        return paymentRepository.save(payment);
+    public Payment createPayment(@RequestParam Long userId, @RequestParam BigDecimal value){
+        return paymentService.createPayment(userId, value);
     }
 
 }

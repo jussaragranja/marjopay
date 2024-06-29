@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -36,5 +37,6 @@ public class Payment implements Serializable{
 	
 	@Column(name = "date_transaction")
 	@DateTimeFormat(pattern = "dd/MM/yyyy:HH:mm")
+	@JsonFormat(pattern = "dd/MM/yyyy:HH:mm")
 	private LocalDateTime dateTransaction;
 }
