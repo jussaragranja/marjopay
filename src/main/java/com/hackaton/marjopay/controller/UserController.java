@@ -29,4 +29,28 @@ public class UserController {
                 .orElseThrow(() -> new ResourceNotFoundException(MESSAGE_USER_NOT_FOUND));
     }
 
+    @DeleteMapping("/delete-user")
+    public void deleteUser(@RequestBody User user){
+        if(!userRepository.findById(user.getId()).isPresent()) {
+            throw new ResourceNotFoundException(MESSAGE_USER_NOT_FOUND);
+        }
+        userRepository.delete(user);
+    }
+
+    @DeleteMapping("/delete-user/{id}")
+    public User deleteUserById(@PathVariable(value = "id") long id){
+        if(userRepository.findById(id) == null) {
+            throw new ResourceNotFoundException(MESSAGE_USER_NOT_FOUND);
+        }
+        return userRepository.deleteById(id);
+    }
+
+    @PutMapping("/update-user")
+    public User updateUser(@RequestBody User user){
+        if(!userRepository.findById(user.getId()).isPresent()) {
+            throw new ResourceNotFoundException(MESSAGE_USER_NOT_FOUND);
+        }
+        return userRepository.save(user);
+    }
+
 }
