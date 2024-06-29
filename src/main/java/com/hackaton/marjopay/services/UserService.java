@@ -47,16 +47,10 @@ public class UserService {
         
         return new UserResponse(userRepository.save(userExistent));
     }
-	
-	public User autenticar(String email, String senha) throws ResourceAccessException {
-		Optional<User> usuario = this.userRepository.findByEmail(email);
-		this.autenticacaoSenha(senha, usuario);
-		return usuario.get();
-	}
+
 	
 	private void criptografarPasswrod(User user) {
 		String password = user.getPassword();
-//		String passwordCripto = encoder.encode(password);
 		user.setPassword(password);
 	}
 	
@@ -70,17 +64,7 @@ public class UserService {
 		criptografarPasswrod(user);
 		return  new UserResponse(userRepository.save(user));
 	}
-	
-	private void autenticacaoSenha(String senha, Optional<User> user) throws ResourceAccessException {
-		if(!user.isPresent()) {
-			throw new ResourceAccessException("User present?");
-		}
-//		boolean senhasBatem = encoder.matches(senha, user.get().getPassword());
-//		if(!senhasBatem) {
-//			throw new ResourceAccessException("password invalid");
-//		}
-	}
-	
+
 	private void validarEmail(String email) throws ResourceAccessException {
 		boolean existe = this.userRepository.existsByEmail(email);
 		if(existe) {
