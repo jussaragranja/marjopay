@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hackaton.marjopay.exception.ResourceNotFoundException;
 import com.hackaton.marjopay.model.User;
-import com.hackaton.marjopay.model.request.UserRequest;
+import com.hackaton.marjopay.model.response.TokenResponse;
 import com.hackaton.marjopay.model.response.UserResponse;
+import com.hackaton.marjopay.repository.UserRepository;
+import com.hackaton.marjopay.services.JwtService;
 import com.hackaton.marjopay.services.UserService;
 import static com.hackaton.marjopay.util.Constant.*;
 import static com.hackaton.marjopay.util.Constant.MESSAGE_PARAMETERS_EMPTY_OR_NULL;
@@ -38,6 +40,11 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/user")
+
+    @Autowired
+    private JwtService jwtService;
+
+    @GetMapping("/users")
     public List<User> listUsers(){
         return userRepository.findAll();
     }
@@ -75,5 +82,17 @@ public class UserController {
 
         return userService.salvarUsuario(user);
     }
+
+    @PostMapping("/autenticar")
+	public ResponseEntity<?> autenticar( @RequestBody UserResponse response ) {
+		try {
+			User usuarioAutenticado = userService.autenticar(response.getCpf(), response.getPassword());
+			String token = jwtService.gerarToken(usuarioAutenticado);
+			TokenResponse tokenDTO = new TokenResponse( usuarioAutenticado.getCpf(), token);
+			return ResponseEntity.ok(tokenDTO);
+		}catch (ResourceNotFoundException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
 
 }

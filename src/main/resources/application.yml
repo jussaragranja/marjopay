@@ -23,3 +23,15 @@ logging:
     org.hibernate: DEBUG
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  file:
+    name: appfile.log
+
+jwt:
+  expiracao: 30
+  chave-assinatura: YSBsZWJyZSDDqSBicmFuY2E=
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -1,4 +1,4 @@
-package com.hackaton.marjopay.model.response;
+package com.hackaton.marjopay.model.request;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -8,21 +8,25 @@ import com.hackaton.marjopay.model.User;
 
 import lombok.Data;
 
+/**
+ * @author pedroRhamon
+ */
 @Data
-public class PaymentResponse {
+public class PaymentRequest {
 	
 	private Long id;
 	
 	private BigDecimal value;
 	
-	private Long user;
+	private Long userId;
 	
 	private LocalDateTime dateTransaction;
 	
-	public PaymentResponse(Payment entity) {
+	public PaymentRequest(Payment entity) {
 		this.id = entity.getId();
 		this.value = entity.getValue();
-		this.user = entity.getUser().getId();
+		this.userId = entity.getUser().getId();
 		this.dateTransaction = entity.getDateTransaction();
 	}
+
 }

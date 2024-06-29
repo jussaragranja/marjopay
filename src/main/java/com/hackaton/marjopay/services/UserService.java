@@ -1,11 +1,11 @@
 package com.hackaton.marjopay.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -25,13 +25,59 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+
+    private PasswordEncoder encoder;
+
+    public User autenticar(String cpf, String senha) {
+        Optional<User> usuario = this.userRepository.findByEmail(cpf);
+
+        if(!usuario.isPresent()) {
+            throw new ResourceAccessException("User present");
+        }
+
+        boolean senhasBatem = encoder.matches(senha, usuario.get().getPassword());
+
+        if(!senhasBatem) {
+            throw new ResourceAccessException("Password invalid");
+        }
+
+        return usuario.get();
+    }
 	
-	public Page<UserRequest> findAll(Pageable pageable) {
-		return userRepository.findAll(pageable).map(UserRequest::new);
+	private PasswordEncoder encoder;
+
+	public User autenticar(String cpf, String senha) {
+		Optional<User> usuario = this.userRepository.findByEmail(cpf);
+
+		if(!usuario.isPresent()) {
+			throw new ResourceAccessException("User present");
+		}
+
+		boolean senhasBatem = encoder.matches(senha, usuario.get().getPassword());
+
+		if(!senhasBatem) {
+			throw new ResourceAccessException("Password invalid");
+		}
+
+		return usuario.get();
 	}
 	
-	public Optional<UserRequest> obterPorId(Long id) {
-		return this.userRepository.findById(id).map(UserRequest::new);
+	public List<User> findAll() {
+		return userRepository.findAll();
+	}
+
+	public Optional<User> obterPorId(Long id) {
+		return this.userRepository.findById(id);
+	}
+
+	public void autenticacaoSenha(String senha, Optional<User> user) throws ResourceAccessException {
+		if(!user.isPresent()) {
+			throw new ResourceAccessException("Usuario não encontrado");
+		}
+		boolean senhasBatem = encoder.matches(senha, user.get().getPassword());
+		if(!senhasBatem) {
+			throw new ResourceAccessException("password invalid");
+		}
 	}
 	
 	public UserResponse updateUser(Long id, UserResponse userResponse) throws ResourceAccessException {
@@ -53,7 +99,7 @@ public class UserService {
 		String password = user.getPassword();
 		user.setPassword(password);
 	}
-
+	
 	@Transactional
 	public UserResponse salvarUsuario(User user) throws ResourceAccessException {
 		validarEmail(user.getEmail());

@@ -31,8 +31,9 @@ public class UserResponse {
 	@Schema(example = "string")
 	private String cpf;
 
-	@Schema(example = "true")
-	private Boolean status;
+	private String password;
+
+	private Boolean status = false;
 
 	@Schema(example = "string")
 	private String email;
