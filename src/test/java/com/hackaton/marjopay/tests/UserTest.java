@@ -3,12 +3,10 @@ package com.hackaton.marjopay.tests;
 import com.hackaton.marjopay.common.Endpoints;
 import com.hackaton.marjopay.config.ConfigTest;
 import com.hackaton.marjopay.factory.Useractory;
-import com.hackaton.marjopay.repository.UserRepository;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
