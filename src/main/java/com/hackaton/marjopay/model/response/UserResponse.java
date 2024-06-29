@@ -30,7 +30,7 @@ public class UserResponse {
 
 	private String cpf;
 	
-//	private String password;
+	private String password;
 	
 	private Boolean status = false;
 
@@ -57,6 +57,7 @@ public class UserResponse {
     this.email = entity.getEmail();
     this.phone = entity.getPhone();
     this.dateOfBirth = entity.getDateOfBirth();
+    this.password = entity.getPassword();
 //    this.dateCreation = entity.getDateCreation();
 //    this.dateUpdated = entity.getDateUpdated();
     this.status = entity.getStatus();
