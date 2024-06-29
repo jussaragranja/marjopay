@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -35,6 +36,9 @@ public class Payment implements Serializable{
 	private Long id;
 	
 	private BigDecimal value;
+	
+	@OneToMany
+	private User user;
 	
 	@Column(name = "date_transaction")
 	@DateTimeFormat(pattern = "dd/MM/yyyy:HH:mm")
