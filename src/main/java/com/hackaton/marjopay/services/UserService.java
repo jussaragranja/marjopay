@@ -53,7 +53,7 @@ public class UserService {
 		String password = user.getPassword();
 		user.setPassword(password);
 	}
-	
+
 	@Transactional
 	public UserResponse salvarUsuario(User user) throws ResourceAccessException {
 		validarEmail(user.getEmail());
@@ -62,7 +62,8 @@ public class UserService {
 		user.setDateOfBirth(user.getDateOfBirth());
 		user.setDateCreation(LocalDateTime.now());
 		criptografarPasswrod(user);
-		return  new UserResponse(userRepository.save(user));
+		User savedUser = userRepository.save(user);
+		return new UserResponse(savedUser);
 	}
 
 	private void validarEmail(String email) throws ResourceAccessException {

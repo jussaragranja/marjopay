@@ -53,14 +53,6 @@ public class UserController {
                 .orElseThrow(() -> new ResourceNotFoundException(MESSAGE_USER_NOT_FOUND));
     }
 
-    @DeleteMapping("/delete-user")
-    public void deleteUser(@RequestBody UserResponse userResponse){
-        if(!userService.obterPorId(userResponse.getId()).isPresent()) {
-            throw new ResourceNotFoundException(MESSAGE_USER_NOT_FOUND);
-        }
-        userService.deletarUsuario(userResponse.getId());
-    }
-
     @DeleteMapping("/delete-user/{id}")
     public void deleteUserById(@PathVariable(value = "id") Long id){
         if(userService.obterPorId(id) == null) {
@@ -76,17 +68,16 @@ public class UserController {
 
     @PostMapping("/create-user")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public UserResponse createUser(@RequestBody User user){
-        if (user.getId() != null){
-            if(userService.obterPorId(user.getId()).isPresent()) {
-                throw new ResourceNotFoundException(MESSAGE_CPF_REGISTERED);
-            }
-        }
-        if(user.getCpf() == null || user.getName() == null ||
-                user == null || user.getEmail() == null || user.equals("")){
-            throw new ResourceNotFoundException(MESSAGE_PARAMETERS_EMPTY_OR_NULL);
-        }
-        user.setDateCreation(LocalDateTime.now());
+    public UserResponse createUser(@RequestBody UserRequest userRequest) {
+        User user = new User();
+        user.setName(userRequest.getName());
+        user.setCpf(userRequest.getCpf());
+        user.setPassword(userRequest.getPassword());
+        user.setStatus(userRequest.getStatus());
+        user.setEmail(userRequest.getEmail());
+        user.setPhone(userRequest.getPhone());
+        user.setDateOfBirth(userRequest.getDateOfBirth());
+
         return userService.salvarUsuario(user);
     }
 

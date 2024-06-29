@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -23,42 +24,35 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class UserResponse {
-	
-	private Long id;
-	
+
+	@Schema(example = "string")
 	private String name;
 
+	@Schema(example = "string")
 	private String cpf;
-	
-//	private String password;
-	
-	private Boolean status = false;
 
+	@Schema(example = "true")
+	private Boolean status;
+
+	@Schema(example = "string")
 	private String email;
 
-	@Length(min = 1, max = 40, message = MESSAGE_MAX_MIN_SIZE)
+	@Length(min = 1, max = 40, message = "Length must be between 1 and 40")
+	@Schema(example = "string")
 	private String phone;
 
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@JsonFormat(pattern = "dd/MM/yyyy")
+	@Schema(example = "10/10/2010")
 	private LocalDate dateOfBirth;
 
-	@DateTimeFormat(pattern = "dd/MM/yyyy:HH:mm")
-	@JsonFormat(pattern = "dd/MM/yyyy:HH:mm")
-	private LocalDateTime dateCreation;
-
-	@DateTimeFormat(pattern = "dd/MM/yyyy:HH:mm")
-	@JsonFormat(pattern = "dd/MM/yyyy:HH:mm")
-	private LocalDateTime dateUpdated;
-	
 	public UserResponse(User entity) {
-    this.name = entity.getName();
-    this.cpf = entity.getCpf();
-    this.email = entity.getEmail();
-    this.phone = entity.getPhone();
-    this.dateOfBirth = entity.getDateOfBirth();
-//    this.dateCreation = entity.getDateCreation();
-//    this.dateUpdated = entity.getDateUpdated();
-    this.status = entity.getStatus();
-}
+		this.name = entity.getName();
+		this.cpf = entity.getCpf();
+		this.email = entity.getEmail();
+		this.phone = entity.getPhone();
+		this.dateOfBirth = entity.getDateOfBirth();
+		this.status = entity.getStatus();
+	}
+
 }

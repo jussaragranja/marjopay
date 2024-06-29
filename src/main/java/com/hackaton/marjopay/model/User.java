@@ -53,8 +53,8 @@ public class User implements Serializable{
 	@Length(min = 1, max = 40, message = MESSAGE_MAX_MIN_SIZE)
 	private String phone;
 
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateOfBirth;
 
 	@Column(name = "date_Creation")
