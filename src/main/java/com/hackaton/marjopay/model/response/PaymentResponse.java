@@ -3,26 +3,28 @@ package com.hackaton.marjopay.model.response;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.hackaton.marjopay.model.Payment;
-import com.hackaton.marjopay.model.User;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hackaton.marjopay.model.Payment;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 public class PaymentResponse {
 	
-	private Long id;
-	
 	private BigDecimal value;
 	
 	private Long user;
 	
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDateTime dateTransaction;
 	
-	public PaymentResponse(Payment entity) {
-		this.id = entity.getId();
-		this.value = entity.getValue();
-		this.user = entity.getUser().getId();
-		this.dateTransaction = entity.getDateTransaction();
+	public PaymentResponse(BigDecimal value, Long user, LocalDateTime dateTransaction) {
+		this.value = value;
+		this.user = user;
+		this.dateTransaction = dateTransaction;
 	}
 }

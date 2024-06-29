@@ -1,3 +1,11 @@
+package com.hackaton.marjopay.services;
+
+import static com.hackaton.marjopay.util.Constant.MESSAGE_PAYMENT_INVALID_VALUE;
+import static com.hackaton.marjopay.util.Constant.MESSAGE_USER_NOT_FOUND;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,7 +58,7 @@ public class PaymentService {
         }
     }
 
-    public List<Payment> findAll() {
+    public java.util.List<Payment> findAll() {
         return paymentRepository.findAll();
     }
 
