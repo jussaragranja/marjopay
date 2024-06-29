@@ -4,11 +4,12 @@ import com.hackaton.marjopay.exception.ResourceNotFoundException;
 import com.hackaton.marjopay.model.User;
 import com.hackaton.marjopay.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import static com.hackaton.marjopay.util.Constant.MESSAGE_USER_NOT_FOUND;
-
 import java.util.List;
+
+import static com.hackaton.marjopay.util.Constant.*;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -49,6 +50,21 @@ public class UserController {
     public User updateUser(@RequestBody User user){
         if(!userRepository.findById(user.getId()).isPresent()) {
             throw new ResourceNotFoundException(MESSAGE_USER_NOT_FOUND);
+        }
+        return userRepository.save(user);
+    }
+
+    @PostMapping("/create-user")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public User createUser(@RequestBody User user){
+        if (user.getId() != null){
+            if(userRepository.findById(user.getId()).isPresent()) {
+                throw new ResourceNotFoundException(MESSAGE_CPF_REGISTERED);
+            }
+        }
+        if(user.getCpf() == null || user.getName() == null ||
+                user == null || user.getEmail() == null || user.equals("")){
+            throw new ResourceNotFoundException(MESSAGE_PARAMETERS_EMPTY_OR_NULL);
         }
         return userRepository.save(user);
     }
