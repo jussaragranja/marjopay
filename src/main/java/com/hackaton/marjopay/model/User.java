@@ -21,10 +21,9 @@ import lombok.Setter;
 import static com.hackaton.marjopay.util.Constant.MESSAGE_MAX_MIN_SIZE;
 
 @Entity
-@Table(name = "user")
+@Table(name = "\"user\"")
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements Serializable{

@@ -26,11 +26,6 @@ public class PaymentController {
         return paymentRepository.findAll();
     }
 
-    @GetMapping("/payment/{cpf}")
-    public Payment getPaymentByCpf(@PathVariable(value = "cpf") String cpf){
-        return paymentRepository.getPaymentsByUserCpf(cpf);
-    }
-
     @DeleteMapping("/delete-payment/{id}")
     public Payment deletePaymentById(@PathVariable(value = "id") long id){
         if(paymentRepository.findById(id) == null) {

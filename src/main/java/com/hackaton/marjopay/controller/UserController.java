@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.hackaton.marjopay.util.Constant.*;
@@ -66,6 +67,7 @@ public class UserController {
                 user == null || user.getEmail() == null || user.equals("")){
             throw new ResourceNotFoundException(MESSAGE_PARAMETERS_EMPTY_OR_NULL);
         }
+        user.setDateCreation(LocalDateTime.now());
         return userRepository.save(user);
     }
 
