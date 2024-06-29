@@ -3,6 +3,7 @@ package com.hackaton.marjopay.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
@@ -16,6 +17,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import static com.hackaton.marjopay.util.Constant.MESSAGE_MAX_MIN_SIZE;
 
 @Entity
 @Table(name = "user")
@@ -32,12 +35,14 @@ public class User implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private Long id;
-	
+
+	@Length(min = 1, max = 240, message = MESSAGE_MAX_MIN_SIZE)
 	private String name;
-	
+
+	@Length(min = 1, max = 10, message = MESSAGE_MAX_MIN_SIZE)
 	private String cpf;
 	
-	private String passwrod;
+	private String password;
 	
 	private Boolean status = false;
 	
