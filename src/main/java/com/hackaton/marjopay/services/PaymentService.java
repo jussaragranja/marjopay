@@ -3,6 +3,7 @@ package com.hackaton.marjopay.services;
 import com.hackaton.marjopay.exception.ResourceNotFoundException;
 import com.hackaton.marjopay.model.Payment;
 import com.hackaton.marjopay.model.User;
+import com.hackaton.marjopay.model.response.PaymentResponse;
 import com.hackaton.marjopay.repository.PaymentRepository;
 import com.hackaton.marjopay.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static com.hackaton.marjopay.util.Constant.MESSAGE_PARAMETERS_EMPTY_OR_NULL;
@@ -25,12 +27,12 @@ public class PaymentService {
     @Autowired
     private UserRepository userRepository;
 
-    public Payment createPayment(Long userId, BigDecimal value) {
+    public PaymentResponse createPayment(Long userId, BigDecimal value) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException(MESSAGE_USER_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (value == null || value.equals(BigDecimal.ZERO)) {
-            throw new ResourceNotFoundException(MESSAGE_PARAMETERS_EMPTY_OR_NULL);
+            throw new ResourceNotFoundException("Payment value cannot be null or zero");
         }
 
         Payment payment = new Payment();
@@ -38,7 +40,9 @@ public class PaymentService {
         payment.setValue(value);
         payment.setDateTransaction(LocalDateTime.now());
 
-        return paymentRepository.save(payment);
+        Payment savedPayment = paymentRepository.save(payment);
+
+        return new PaymentResponse(savedPayment.getValue(), user.getId(), savedPayment.getDateTransaction());
     }
 
     public List<Payment> findAll() {
