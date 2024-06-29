@@ -39,13 +39,19 @@ public class User implements Serializable{
 	@Length(min = 1, max = 240, message = MESSAGE_MAX_MIN_SIZE)
 	private String name;
 
-	@Length(min = 1, max = 10, message = MESSAGE_MAX_MIN_SIZE)
+	@Length(min = 1, max = 11, message = MESSAGE_MAX_MIN_SIZE)
 	private String cpf;
 	
 	private String password;
 	
 	private Boolean status = false;
-	
+
+	@Length(min = 1, max = 120, message = MESSAGE_MAX_MIN_SIZE)
+	private String email;
+
+	@Length(min = 1, max = 40, message = MESSAGE_MAX_MIN_SIZE)
+	private String phone;
+
 	@DateTimeFormat(pattern = "dd/MM/yyyy:HH:mm")
 	private LocalDateTime dateOfBirth;
 
