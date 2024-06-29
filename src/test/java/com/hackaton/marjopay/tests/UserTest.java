@@ -2,13 +2,14 @@ package com.hackaton.marjopay.tests;
 
 import com.hackaton.marjopay.common.Endpoints;
 import com.hackaton.marjopay.config.ConfigTest;
+import com.hackaton.marjopay.factory.Useractory;
 import com.hackaton.marjopay.repository.UserRepository;
 import io.restassured.http.ContentType;
-import org.hamcrest.Matchers;
+import org.apache.http.HttpStatus;
+import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 
 import static com.hackaton.marjopay.util.Constant.MESSAGE_USER_NOT_FOUND;
@@ -37,7 +38,7 @@ public class UserTest extends ConfigTest {
 		.then()
 				.log().all()
 			.assertThat()
-			.statusCode(HttpStatus.OK.value())
+			.statusCode(HttpStatus.SC_OK)
 			.log().all();
 	}
 	
@@ -53,8 +54,23 @@ public class UserTest extends ConfigTest {
 		.then()
 				.log().all()
 			.assertThat()
-			.statusCode(HttpStatus.NOT_FOUND.value()).and().body("message", equalTo(MESSAGE_USER_NOT_FOUND))
+			.statusCode(HttpStatus.SC_NOT_FOUND).and().body("message", equalTo(MESSAGE_USER_NOT_FOUND))
 			.log().all();
+	}
+
+	@Test
+	public void postNewUser() throws JSONException {
+
+		given()
+				.contentType(ContentType.JSON)
+				.body(Useractory.createNewUserRequestBody())
+			.when()
+				.post(Endpoints.POST_USER)
+			.then()
+				.log().all()
+				.assertThat()
+				.statusCode(HttpStatus.SC_CREATED)
+				.log().all();
 	}
 
 }

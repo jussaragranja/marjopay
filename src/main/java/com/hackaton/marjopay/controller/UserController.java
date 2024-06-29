@@ -38,11 +38,6 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/user")
-    public Page<UserRequest> listUsers(Pageable pageable){
-        return userService.findAll(pageable);
-    }
-
-    @GetMapping("/users")
     public List<User> listUsers(){
         return userRepository.findAll();
     }
