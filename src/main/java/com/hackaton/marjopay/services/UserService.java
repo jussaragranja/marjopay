@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -27,9 +26,6 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	private PasswordEncoder encoder;
-	
 	public Page<UserRequest> findAll(Pageable pageable) {
 		return userRepository.findAll(pageable).map(UserRequest::new);
 	}
@@ -42,15 +38,13 @@ public class UserService {
         User userExistent = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceAccessException("Error of id"));
 
-        // Atualiza os dados do usuário existente com os novos dados do usuárioAtualizado
         userExistent.setName(userResponse.getName());
         userExistent.setEmail(userResponse.getEmail());
         userExistent.setCpf(userResponse.getCpf());
         userExistent.setDateOfBirth(userResponse.getDateCreation());
         userExistent.setDateUpdated(LocalDateTime.now());        
-        criptografarPasswrod(userExistent); // Se necessário
-
-        // Salva e retorna o usuário atualizado
+        criptografarPasswrod(userExistent); 
+        
         return new UserResponse(userRepository.save(userExistent));
     }
 	
@@ -62,8 +56,8 @@ public class UserService {
 	
 	private void criptografarPasswrod(User user) {
 		String password = user.getPassword();
-		String passwordCripto = encoder.encode(password);
-		user.setPassword(passwordCripto);
+//		String passwordCripto = encoder.encode(password);
+		user.setPassword(password);
 	}
 	
 	@Transactional
@@ -81,10 +75,10 @@ public class UserService {
 		if(!user.isPresent()) {
 			throw new ResourceAccessException("User present?");
 		}
-		boolean senhasBatem = encoder.matches(senha, user.get().getPassword());
-		if(!senhasBatem) {
-			throw new ResourceAccessException("password invalid");
-		}
+//		boolean senhasBatem = encoder.matches(senha, user.get().getPassword());
+//		if(!senhasBatem) {
+//			throw new ResourceAccessException("password invalid");
+//		}
 	}
 	
 	private void validarEmail(String email) throws ResourceAccessException {
