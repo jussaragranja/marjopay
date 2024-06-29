@@ -24,10 +24,7 @@ import static org.hamcrest.Matchers.equalTo;
 @SpringBootTest
 @ActiveProfiles("test")
 public class UserTest extends ConfigTest {
-	
-	@Autowired
-	private UserRepository userRepository;
-	
+
 	@Test
 	public void getAllListTest() {
 		
