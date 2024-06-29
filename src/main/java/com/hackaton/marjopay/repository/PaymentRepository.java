@@ -10,4 +10,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     Payment deleteById(long id);
 
+    Payment getPaymentsByUserCpf(String cpf);
+
 }

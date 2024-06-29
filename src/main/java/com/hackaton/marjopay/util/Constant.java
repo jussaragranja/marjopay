@@ -9,5 +9,8 @@ public class Constant {
 
     public static final String MESSAGE_PARAMETERS_EMPTY_OR_NULL = "The request cannot contain empty or null parameters.";
 
+    public static final String MESSAGE_NO_PAYMENT_FOUND_CPF = "No payment found by CPF";
+    public static final String MESSAGE_PAYMENT_NOT_FOUND = "Payment not found!";
+
 
 }
