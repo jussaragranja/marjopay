@@ -1,15 +1,11 @@
 package com.hackaton.marjopay.config;
 
-import org.springdoc.core.models.GroupedOpenApi;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SwaggerConfig {
@@ -21,9 +17,9 @@ public class SwaggerConfig {
 						.version("1.0")
 				.description("API documentation for the application")
 				.termsOfService("http://swagger.io/terms/")
-				.license(new License().name("Apache 2.0").url("http://springdoc.org")))
-				.addSecurityItem(new SecurityRequirement().addList("JWT"))
-	            .components(new Components().addSecuritySchemes("JWT", createJWT()));
+				.license(new License().name("Apache 2.0").url("http://springdoc.org")));
+				//.addSecurityItem(new SecurityRequirement().addList("JWT"))
+	            //.components(new Components().addSecuritySchemes("JWT", createJWT()));
 	}
 
 	private SecurityScheme createJWT() {
@@ -36,11 +32,4 @@ public class SwaggerConfig {
 	            .name("Authorization");
 	}
 
-	@Bean
-	public GroupedOpenApi publicApi() {
-		return GroupedOpenApi.builder()
-				.group("public-api")
-				.pathsToMatch("/**")
-				.build();
-	}
 }
