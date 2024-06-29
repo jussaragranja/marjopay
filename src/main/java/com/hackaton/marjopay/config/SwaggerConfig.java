@@ -14,13 +14,11 @@ public class SwaggerConfig {
 	@Bean
 	public OpenAPI customOpenAPI() {
 		return new OpenAPI()
-				.info(new Info().title("API Documentation")
+				.info(new Info().title("marjoPay")
 						.version("1.0")
-				.description("API documentation for the application")
-				.termsOfService("http://swagger.io/terms/")
+						.description("MarjoPay API provides endpoints for managing payments and user transactions")
+						.termsOfService("http://swagger.io/terms/")
 				.license(new License().name("Apache 2.0").url("http://springdoc.org")));
-				//.addSecurityItem(new SecurityRequirement().addList("JWT"))
-	            //.components(new Components().addSecuritySchemes("JWT", createJWT()));
 	}
 
 	private SecurityScheme createJWT() {

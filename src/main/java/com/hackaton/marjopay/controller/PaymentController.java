@@ -2,6 +2,7 @@ package com.hackaton.marjopay.controller;
 
 import com.hackaton.marjopay.model.Payment;
 import com.hackaton.marjopay.model.response.PaymentResponse;
+import com.hackaton.marjopay.repository.PaymentRepository;
 import com.hackaton.marjopay.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,12 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
+    @Autowired
+    private PaymentRepository paymentRepository;
+
     @GetMapping("/payment")
     public List<Payment> listPayments(){
-        return paymentService.findAll();
+        return paymentRepository.findAll();
     }
 
     @DeleteMapping("/delete-payment/{id}")

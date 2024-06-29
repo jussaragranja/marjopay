@@ -26,24 +26,6 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-    private PasswordEncoder encoder;
-
-    public User autenticar(String cpf, String senha) {
-        Optional<User> usuario = this.userRepository.findByEmail(cpf);
-
-        if(!usuario.isPresent()) {
-            throw new ResourceAccessException("User present");
-        }
-
-        boolean senhasBatem = encoder.matches(senha, usuario.get().getPassword());
-
-        if(!senhasBatem) {
-            throw new ResourceAccessException("Password invalid");
-        }
-
-        return usuario.get();
-    }
-	
 	private PasswordEncoder encoder;
 
 	public User autenticar(String cpf, String senha) {

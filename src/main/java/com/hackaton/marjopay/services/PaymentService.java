@@ -1,3 +1,5 @@
+package com.hackaton.marjopay.services;
+
 import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,12 @@ import com.hackaton.marjopay.repository.PaymentRepository;
 import com.hackaton.marjopay.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import static com.hackaton.marjopay.util.Constant.MESSAGE_PAYMENT_INVALID_VALUE;
+import static com.hackaton.marjopay.util.Constant.MESSAGE_USER_NOT_FOUND;
 
 @Service
 public class PaymentService {
@@ -48,10 +56,6 @@ public class PaymentService {
         } else {
             throw new ResourceNotFoundException("Failed to create payment in external API");
         }
-    }
-
-    public List<Payment> findAll() {
-        return paymentRepository.findAll();
     }
 
     @Transactional
